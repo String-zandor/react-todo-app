@@ -8,19 +8,23 @@ import {
 } from "@mui/material";
 import Joi from "joi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import * as authSvc from "../services/auth";
+import * as userSvc from "../services/user";
 
-export function LoginPage({ onLogin }) {
+export function RegisterAdminPage({ onRegisterAdmin }) {
+  const currentUser = authSvc.getCurrentUser();
   const [form, setForm] = useState({
     username: "",
-    password: "",
   });
 
   const schema = Joi.object({
     username: Joi.string().required(),
-    password: Joi.string().required(),
   });
 
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   function handleChange(event) {
     const { name, value } = event.currentTarget;
@@ -43,7 +47,7 @@ export function LoginPage({ onLogin }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    onLogin(form.username, form.password);
+    onRegisterAdmin(form.username);
   }
 
   return (
@@ -53,12 +57,12 @@ export function LoginPage({ onLogin }) {
         marginTop={9}
         justifyContent="center"
         width="40%"
-        spacing={2}
+        spacing={1}
       >
         <Grid item>
-          <h3>LOG-IN</h3>
+          <h3>REGISTER AS ADMIN</h3>
         </Grid>
-        <Card component="form" onSubmit={handleSubmit}>
+        <Card component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
           <CardContent>
             <TextField
               label="Username"
@@ -68,19 +72,10 @@ export function LoginPage({ onLogin }) {
               helperText={errors.username || " "}
               fullWidth
             />
-            <TextField
-              label="Password"
-              type="password"
-              name="password"
-              onChange={handleChange}
-              error={!!errors.password}
-              helperText={errors.password || " "}
-              fullWidth
-            />
           </CardContent>
           <CardActions>
             <Button type="submit" fullWidth disabled={isFormInvalid()}>
-              Log-in
+              Register
             </Button>
           </CardActions>
         </Card>

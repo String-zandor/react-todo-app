@@ -8,24 +8,27 @@ import {
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
-import { Task } from "./Task";
-import { width } from "@mui/system";
+import { Task } from "./Todo";
 
-export function CompletedTasks({ tasks }) {
+export function CompletedTodos({ todos, onTodoUpdate, onDeleteTodo }) {
   const [open, setOpen] = useState(false);
 
   return (
     <List sx={{ justifyContent: "start" }}>
       <ListItemButton onClick={() => setOpen(!open)}>
         {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        <ListItemText primary="Completed" />
+        <ListItemText primary={`Completed (${todos ? todos.length : 0})`} />
       </ListItemButton>
       <Collapse in={open} unmountOnExit>
         <Grid container spacing={1}>
-          {tasks &&
-            tasks.map((task) => (
-              <Grid item key={task.id} width="100%">
-                <Task task={task} />
+          {todos &&
+            todos.map((todo) => (
+              <Grid item key={todo.id} width="100%">
+                <Task
+                  todo={todo}
+                  onTodoUpdate={onTodoUpdate}
+                  onDeleteTodo={onDeleteTodo}
+                />
               </Grid>
             ))}
         </Grid>

@@ -4,18 +4,23 @@ export const http = axios.create({
   baseURL: "http://localhost:3001/api",
 });
 
-http.interceptors.request.use(
-  (request) => {
-    const accessToken = localStorage.getItem("JWT");
-    if (accessToken) {
-      request.headers = { Authorization: `Bearer ${accessToken}` };
-    }
-    console.log("inside request interceptor", request);
-    return request;
+http.interceptors.response.use(null, (error) => {
+  const expectedError =
+    error.response &&
+    error.response.status >= 400 &&
+    error.response.status < 500;
+
+  if (!expectedError) {
+    alert("An unexpected error occurred");
   }
-  //   ,
-  //   (error) => {
-  //     console.log("inside interceptor");
-  //     return Promise.reject(error);
-  //   }
-);
+
+  return Promise.reject(error);
+});
+
+http.interceptors.request.use((request) => {
+  const accessToken = localStorage.getItem("JWT");
+  if (accessToken) {
+    request.headers = { Authorization: `Bearer ${accessToken}` };
+  }
+  return request;
+});

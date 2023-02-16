@@ -1,21 +1,23 @@
 import { Card, CardActions, IconButton, TextField } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import { useState } from "react";
+import { TodoForm } from "./TodoForm";
 
-export function TaskForm({ task, onAddTask }) {
-  const [title, setTitle] = useState(task ? task.title : "");
+export function AddTodo({ todo, onAddTodo }) {
+  // const [title, setTitle] = useState(todo ? todo.title : "");
 
-  function handleChange({ target: input }) {
-    setTitle(input.value);
-  }
+  // function handleChange({ target: input }) {
+  //   setTitle(input.value);
+  // }
 
-  function handleSubmit() {
-    onAddTask({ title });
-  }
+  // function handleSubmit() {
+  //   onAddTodo({ title });
+  //   setTitle("");
+  // }
 
   return (
     <Card variant="elevation">
-      <CardActions>
+      {/* <CardActions>
         <IconButton onClick={handleSubmit}>
           <AddTaskIcon />
         </IconButton>
@@ -26,7 +28,8 @@ export function TaskForm({ task, onAddTask }) {
           size="small"
           fullWidth
         />
-      </CardActions>
+      </CardActions> */}
+      <TodoForm todo={todo} onSubmit={onAddTodo} />
     </Card>
   );
 }
